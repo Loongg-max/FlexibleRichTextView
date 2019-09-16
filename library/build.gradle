@@ -1,17 +1,30 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.novoda.bintray-release'
+
 
 group='com.github.daquexian'
 
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.9.1'
+    }
+}
+
+
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 28
+
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 28
         versionCode 1
-        versionName "0.8.2"
+        versionName "1.0.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -25,13 +38,27 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    /*androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.1'
-    testCompile 'junit:junit:4.12'
+    })*/
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    testImplementation 'junit:junit:4.12'
 
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.softwee:codeview-android:1.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+
+}
+
+//com.novoda.bintray-release插件的闭包
+publish {
+    repoName= "MyMP"    //仓库名(repoName 如果没有填写，上传的库默认仓库是maven)
+    userOrg = 'loongg-max'    //在jcenter注册时填写的用户名，不是填写的姓名
+    //组id，类似于com.android.support:appcompat-v7:28.0.0中的com.android.support，可以自己根据项目随便自定义
+    groupId = 'com.richtextview'
+    //项目id，类似于com.android.support:appcompat-v7:28.0.0中  的appcompat-v7，也是在仓库中的packageName（不一定要是在github中的项目名）
+    //即该字段为你的模块名称，唯一标识符
+    artifactId = 'FlexibleRichTextView'
+    publishVersion = '1.0.0'  //版本号 , compile引用时的第3部分版本号
+    desc = 'A useful flexible rich textview!'
+    website = 'https://github.com/Loongg-max/FlexibleRichTextView'  //项目的托管地址（github、码云 等）
 }
