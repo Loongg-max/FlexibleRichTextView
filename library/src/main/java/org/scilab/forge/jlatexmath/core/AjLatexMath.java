@@ -14,7 +14,7 @@ public class AjLatexMath {
     /**
      * 初始化画笔以及公式解析类
      *
-     * @param context
+     * @param context 上下文
      */
     public static void init(Context context) {
         mContext = context;
@@ -31,9 +31,9 @@ public class AjLatexMath {
     }
 
     /**
-     * 同步画笔颜色，使生成图片与文字夜色一致
+     * 同步画笔颜色，使生成图片与文字颜色一致
      *
-     * @param color
+     * @param color 画笔颜色
      */
     public static void setColor(int color) {
         if (st == null) {
@@ -46,10 +46,18 @@ public class AjLatexMath {
         return mContext;
     }
 
+    /**
+     * 得到画笔
+     *
+     * */
     public static Paint getPaint() {
         return st;
     }
 
+    /**
+     * 根据文字大小得到行距
+     *
+     * */
     public static float getLeading(float textSize) {
         st.setTextSize(textSize);
         return st.getFontSpacing();

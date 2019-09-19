@@ -2,7 +2,7 @@ package com.daquexian.flexiblerichtextview;
 
 import android.util.Log;
 
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,7 +74,7 @@ public class Tokenizer {
         }
 
         @Override
-        public int compareTo(@NotNull TOKEN token) {
+        public int compareTo(@NonNull TOKEN token) {
             if (position < token.position) {
                 return -1;
             } if (position == token.position) {

@@ -1,6 +1,10 @@
 package com.daquexian.flexiblerichtextview;
 
+import android.graphics.Color;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,15 @@ public class TextWithFormula extends SpannableStringBuilder {
 
     public TextWithFormula(CharSequence text) {
         super(text);
+        //设置富文本文字颜色
+        if(RichTextViewSetting.getTextColor() != 0){
+            setSpan(new ForegroundColorSpan(RichTextViewSetting.getTextColor()), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+        //设置富文本文字大小（单位pix）
+        if(RichTextViewSetting.getTextSize() != -1){
+            setSpan(new AbsoluteSizeSpan(RichTextViewSetting.getTextSize()), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+
     }
 
     public void addFormula(int start, int end, String content, int contentStart,

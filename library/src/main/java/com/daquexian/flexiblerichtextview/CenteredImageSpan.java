@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.style.ImageSpan;
 
 public class CenteredImageSpan extends ImageSpan
@@ -83,7 +84,7 @@ public class CenteredImageSpan extends ImageSpan
 		canvas.restore();
 	}
 
-	public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+	public int getSize(@NonNull Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
 		Drawable d = getDrawable();
 		Rect rect = d.getBounds();
 		if (fm != null) {

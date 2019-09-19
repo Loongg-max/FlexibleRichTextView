@@ -4,9 +4,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.widget.TextView;
 
 import org.scilab.forge.jlatexmath.core.AjLatexMath;
 import org.scilab.forge.jlatexmath.core.Insets;
@@ -20,9 +20,13 @@ import java.util.List;
  * Created by daquexian on 17-2-16.
  */
 
-public class LaTeXtView extends TextView {
+public class LaTeXtView extends AppCompatTextView {
     public LaTeXtView(Context context) {
         super(context);
+        //设置富文本公式的大小
+        if(RichTextViewSetting.getLateXSize() != -1){
+            setTextSize(RichTextViewSetting.getLateXSize());
+        }
     }
 
     public void setTextWithFormula(TextWithFormula textWithFormula) {

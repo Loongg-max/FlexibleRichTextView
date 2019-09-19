@@ -6,7 +6,9 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.text.Spanned;
@@ -23,7 +25,6 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
@@ -34,9 +35,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +49,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.github.kbiakov.codeview.CodeView;
 
 import static com.daquexian.flexiblerichtextview.Tokenizer.*;
 
@@ -289,12 +292,12 @@ public class FlexibleRichTextView extends LinearLayout {
                     }
 
                     if (i == 0) {
-                        final CodeView codeView = (CodeView) LayoutInflater.from(mContext).inflate(R.layout.code_view, this, false);
+                        final CodeView codeView = new CodeView(mContext);
                         codeView.setCode(string.toString());
                         ret.add(codeView);
                     } else if (!TextUtils.isEmpty(string)) {
                         setTokenIndex(tmp);
-                        final CodeView codeView = (CodeView) LayoutInflater.from(mContext).inflate(R.layout.code_view, this, false);
+                        final CodeView codeView = new CodeView(mContext);
                         codeView.setCode(string.toString());
                         ret.add(codeView);
                     } else {
@@ -444,17 +447,16 @@ public class FlexibleRichTextView extends LinearLayout {
 
         final int finalWidth = imgWidth;
         final int finalHeight = imgHeight;
-        Glide.with(mContext)
-                .load(url)
-                .placeholder(new ColorDrawable(ContextCompat.getColor(mContext, android.R.color.darker_gray)))
-                .listener(new RequestListener<String, GlideDrawable>() {
+        Glide.with(mContext).load(url)
+                .apply(new RequestOptions().placeholder(new ColorDrawable(ContextCompat.getColor(mContext, android.R.color.darker_gray))))
+                .listener(new RequestListener<Drawable>() {
                     @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         /**
                          * adjust the size of ImageView according to image
                          */
@@ -480,6 +482,43 @@ public class FlexibleRichTextView extends LinearLayout {
                     }
                 })
                 .into(imageView);
+
+        /*Glide.with(mContext)
+                .load(url)
+                .placeholder(new ColorDrawable(ContextCompat.getColor(mContext, android.R.color.darker_gray)))
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        *//**
+                         * adjust the size of ImageView according to image
+                         *//*
+                        if (imageView.centered) {
+                            final RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(finalWidth, finalHeight);
+                            params.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
+                            imageView.setLayoutParams(params);
+                        } else {
+                            imageView.setLayoutParams(new LinearLayout.LayoutParams(finalWidth, finalHeight));
+                        }
+
+                        imageView.setImageDrawable(resource);
+
+                        imageView.setOnClickListener(new OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                if (mOnViewClickListener != null) {
+                                    mOnViewClickListener.onImgClick(imageView);
+                                }
+                            }
+                        });
+                        return false;
+                    }
+                })
+                .into(imageView);*/
         return imageView;
     }
 

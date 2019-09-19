@@ -105,6 +105,8 @@ public class JavaFontRenderingBox extends Box {
 		st.setStrokeWidth(0);//
 		st.setStyle(Style.FILL_AND_STROKE);
 		st.setTypeface(font);
+		st.setColor(AjLatexMath.getPaint().getColor());
+		st.setAntiAlias(true);
 		g2.save();
 		g2.translate(x, y);
 		g2.scale(0.5f * size, 0.5f * size);
